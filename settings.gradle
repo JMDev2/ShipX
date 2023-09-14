@@ -1,0 +1,11 @@
+dependencyResolutionManagement {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+rootProject.name = "SpaceX"
+include ':app'
+include ':common'
+include ':etourism'
+
