@@ -2,7 +2,7 @@ package com.ekenya.rnd.baseapp.di
 
 import android.app.Application
 import android.content.Context
-import com.ekenya.rnd.baseapp.TourismApp
+import com.ekenya.rnd.baseapp.SpaceXApp
 import com.ekenya.rnd.common.repo.SampleDataRepo
 import com.ekenya.rnd.common.repo.SampleRepository
 import dagger.Module
@@ -14,7 +14,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideContext(app: TourismApp): Context {
+    fun provideContext(app: SpaceXApp): Context {
         return app
     }
 

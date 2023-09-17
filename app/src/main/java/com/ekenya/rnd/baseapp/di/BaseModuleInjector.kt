@@ -2,12 +2,12 @@ package com.ekenya.rnd.baseapp.di
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import com.ekenya.rnd.baseapp.TourismApp
+import com.ekenya.rnd.baseapp.SpaceXApp
 import dagger.android.DispatchingAndroidInjector
 
 interface BaseModuleInjector {
 
-    fun inject(app: TourismApp)
+    fun inject(app: SpaceXApp)
 
     fun activityInjector(): DispatchingAndroidInjector<Activity>
 

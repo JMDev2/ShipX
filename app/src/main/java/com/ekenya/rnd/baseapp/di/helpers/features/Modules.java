@@ -36,8 +36,11 @@ public final class Modules {
     static {
         Modules var0 = new Modules();
         INSTANCE = var0;
-        modules = Arrays.asList(new FeatureModule[]{(FeatureModule) FeatureTourism.INSTANCE,
-                (FeatureModule) FeatureSupport.INSTANCE}.clone()
+        modules = Arrays.asList(
+                new FeatureModule[]{(FeatureModule) FeatureTourism.INSTANCE,
+                (FeatureModule) FeatureDashborad.INSTANCE
+        }
+                .clone()
         );
     }
 
@@ -76,13 +79,16 @@ public final class Modules {
         }
     }
 
-    public static final class FeatureSupport implements FeatureModule {
+
+    public static final class FeatureDashborad implements FeatureModule, AddressableActivity {
 
         private static final String name;
 
         private static final String injectorName;
 
-        public static final FeatureSupport INSTANCE;
+        private static final String className;
+
+        public static final FeatureDashborad INSTANCE;
 
         public String getName() {
             return name;
@@ -92,15 +98,23 @@ public final class Modules {
             return injectorName;
         }
 
-        private FeatureSupport() {
+        private FeatureDashborad() {
         }
 
         static {
-            FeatureSupport var0 = new FeatureSupport();
+            FeatureDashborad var0 = new FeatureDashborad();
             INSTANCE = var0;
-            name = "support";
-            injectorName = Constants.BASE_PACKAGE_NAME+".support.di.SupportInjector";
+            name = "dashboard";
+            injectorName = Constants.BASE_PACKAGE_NAME+"."+name+".di.DashboardInjector";
+            className = Constants.BASE_PACKAGE_NAME +"."+name+".MainActivity";
+        }
+
+        @Override
+        public String getClassName() {
+            return className;
         }
     }
+
+
 
 }

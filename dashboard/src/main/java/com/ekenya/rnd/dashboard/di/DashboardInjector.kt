@@ -1,15 +1,15 @@
-package com.ekenya.rnd.etourism.di
+package com.ekenya.rnd.dashboard.di
 
 import android.app.Activity
-import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import com.ekenya.rnd.baseapp.SpaceXApp
 import com.ekenya.rnd.baseapp.di.BaseModuleInjector
 import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 
-@Keep
-class TourismInjector: BaseModuleInjector {
+
+class DashboardInjector : BaseModuleInjector {
+
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 
@@ -17,7 +17,7 @@ class TourismInjector: BaseModuleInjector {
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun inject(app: SpaceXApp) {
-        DaggerTourismComponent.builder()
+        DaggerDashboardComponent.builder()
             .appComponent(app.appComponent)
             .build()
             .inject(this)
