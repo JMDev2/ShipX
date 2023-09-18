@@ -74,4 +74,16 @@ dependencies {
     api "com.google.dagger:dagger-android:" + rootProject.googleDaggerVersion
     api "com.google.dagger:dagger-android-support:" + rootProject.googleDaggerVersion
 
+    //retrofit
+    api 'com.squareup.retrofit2:retrofit:' + rootProject.retrofitVersion
+
+    //gson converter for retrofit
+    api 'com.squareup.retrofit2:converter-gson:' + rootProject.retrofitVersion
+
+    //okhttp
+    api 'com.squareup.okhttp3:okhttp:' + rootProject.okHttpVersion
+    api 'com.squareup.okhttp3:logging-interceptor:' + rootProject.okHttpVersion
+
+    //Picasso
+    api 'com.squareup.picasso:picasso:' + rootProject.picassoVersion
 }

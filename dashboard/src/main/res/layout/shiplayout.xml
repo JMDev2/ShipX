@@ -1,0 +1,61 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/ship_background">
+
+    <LinearLayout
+        android:id="@+id/imag_card"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/img_bg"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ship_image"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:background="@drawable/img_bg"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ship" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:text="American Champion"
+        app:layout_constraintStart_toEndOf="@+id/imag_card"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ship_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
+        android:text="Built 1856"
+        app:layout_constraintStart_toEndOf="@+id/imag_card"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <ImageView
+        android:id="@+id/active_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/star" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

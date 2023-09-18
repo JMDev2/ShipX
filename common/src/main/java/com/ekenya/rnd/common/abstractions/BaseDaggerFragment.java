@@ -12,4 +12,6 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
         super.onCreate(savedInstanceState);
 
     }
+
+
 }
