@@ -13,5 +13,4 @@ public abstract class BaseDaggerFragment extends DaggerFragment {
 
     }
 
-
 }

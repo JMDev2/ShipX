@@ -16,6 +16,7 @@ import com.ekenya.rnd.dashboard.MainActivity
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.adapter.ShipAdapter
 import com.ekenya.rnd.dashboard.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 
@@ -43,13 +44,16 @@ class HomeFragment : BaseDaggerFragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
+        binding?.retryBtn?.setOnClickListener {
+            doRefresh()
+        }
         observeShips()
 
         //perfoming search
@@ -90,34 +94,75 @@ class HomeFragment : BaseDaggerFragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = shipAdapter
         }
+
     }
 
     private fun observeShips() {
         viewModel.observeShipLiveData().observe(viewLifecycleOwner) { shipResponse ->
             when(shipResponse.status){
                 Status.SUCCESS -> {
-                    binding.progressBar.visibility = View.GONE
-
+                    hideProgressBar()
+                    showNetworkErrorImage()
                     val ship = shipResponse.data
                     Log.d("kim", "observeParking: ${shipResponse.data}")
 
                     ship?.let {
+                        showNetworkErrorImage()
                         filteredShips = ship
                         shipAdapter = ShipAdapter(it)
                         setRecyclerView()
                     }
                 }
                 Status.ERROR -> {
+                    hideProgressBar()
+                    showNetworkErrorImage()
+
+                    binding?.root?.let { showSnackBar(it) }
 
                 }
                 Status.LOADING -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    showProgressBar()
                 }
             }
 
         }
     }
 
+    private fun showSnackBar(view: View){
+        Snackbar.make(
+            view,
+            "Error loading ships",
+            Snackbar.LENGTH_LONG
+        )
+            .setAction("Retry"){
+                doRefresh()
+            }.show()
+    }
 
+    private fun doRefresh() {
+        viewModel.refresh()
+        hideProgressBar()
+        hideNetworkErrorImage()
+        observeShips()
+    }
+
+    private fun showProgressBar() {
+        binding?.progressBar?.visibility = View.VISIBLE
+    }
+
+    private fun showNetworkErrorImage() {
+        binding?.eorImage?.visibility = View.VISIBLE
+        binding?.retryBtn?.visibility = View.VISIBLE
+
+    }
+    private fun hideNetworkErrorImage() {
+        binding?.eorImage?.visibility = View.GONE
+        binding?.retryBtn?.visibility = View.GONE
+
+    }
+
+    private fun hideProgressBar() {
+        binding?.progressBar?.visibility = View.GONE
+    }
 
 }

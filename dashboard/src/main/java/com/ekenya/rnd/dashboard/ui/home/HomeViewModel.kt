@@ -27,4 +27,8 @@ class HomeViewModel @Inject constructor(private val repository: ShipRepository):
     fun observeShipLiveData(): LiveData<Resource<ShipResponse?>>{
         return shipLiveData
     }
+
+    fun refresh() {
+        getShips()
+    }
 }
