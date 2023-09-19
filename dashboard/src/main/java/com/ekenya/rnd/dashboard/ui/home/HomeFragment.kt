@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
 import com.ekenya.rnd.common.utils.Status
+import com.ekenya.rnd.dashboard.MainActivity
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.adapter.ShipAdapter
 import com.ekenya.rnd.dashboard.databinding.FragmentHomeBinding
@@ -42,6 +44,7 @@ class HomeFragment : BaseDaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         observeShips()
 
