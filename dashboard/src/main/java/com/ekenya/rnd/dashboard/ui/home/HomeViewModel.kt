@@ -11,20 +11,21 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val repository: ShipRepository): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: ShipRepository) : ViewModel() {
     private var shipLiveData = MutableLiveData<Resource<ShipResponse?>>()
+
 
     init {
         getShips()
     }
 
-    fun getShips() = viewModelScope.launch{
-        repository.getShips().collect{
+    fun getShips() = viewModelScope.launch {
+        repository.getShips().collect {
             shipLiveData.postValue(it)
         }
     }
 
-    fun observeShipLiveData(): LiveData<Resource<ShipResponse?>>{
+    fun observeShipLiveData(): LiveData<Resource<ShipResponse?>> {
         return shipLiveData
     }
 

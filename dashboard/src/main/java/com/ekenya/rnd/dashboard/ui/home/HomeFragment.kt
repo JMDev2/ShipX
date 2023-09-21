@@ -79,8 +79,10 @@ class HomeFragment : BaseDaggerFragment() {
 
         if (theFilteredShips.isEmpty()){
            // binding.errorLayout.visibility = View.VISIBLE
+            binding.noshipText.visibility = View.VISIBLE
         } else {
            // binding.errorLayout.visibility = View.GONE
+            binding.noshipText.visibility = View.GONE
         }
 
         shipAdapter = ShipAdapter(theFilteredShips)
@@ -107,7 +109,7 @@ class HomeFragment : BaseDaggerFragment() {
                     Log.d("kim", "observeParking: ${shipResponse.data}")
 
                     ship?.let {
-                        showNetworkErrorImage()
+                        hideNetworkErrorImage()
                         filteredShips = ship
                         shipAdapter = ShipAdapter(it)
                         setRecyclerView()
@@ -116,7 +118,6 @@ class HomeFragment : BaseDaggerFragment() {
                 Status.ERROR -> {
                     hideProgressBar()
                     showNetworkErrorImage()
-
                     binding?.root?.let { showSnackBar(it) }
 
                 }
