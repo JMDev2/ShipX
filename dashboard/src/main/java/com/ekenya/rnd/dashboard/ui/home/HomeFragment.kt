@@ -5,13 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
 import com.ekenya.rnd.common.model.ShipResponseItem
 import com.ekenya.rnd.common.utils.Status
+import com.ekenya.rnd.common.utils.toast
 import com.ekenya.rnd.dashboard.MainActivity
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.adapter.ShipAdapter
@@ -26,6 +29,7 @@ class HomeFragment : BaseDaggerFragment() {
     private lateinit var shipAdapter: ShipAdapter
 
     var filteredShips: List<ShipResponseItem> = ArrayList()
+    val shipData: ArrayList<ShipResponseItem> = ArrayList()
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -54,7 +58,9 @@ class HomeFragment : BaseDaggerFragment() {
         binding?.retryBtn?.setOnClickListener {
             doRefresh()
         }
+        shipAdapter = ShipAdapter(shipData)
         observeShips()
+
 
         //perfoming search
         val searchView = binding.searchView
@@ -71,6 +77,16 @@ class HomeFragment : BaseDaggerFragment() {
         })
 
     }
+
+    private fun onShipClick() {
+        shipAdapter.onItemClick = { ship ->
+            val actions = HomeFragmentDirections.actionHomeFragmentToShipDetailsFragment()
+            requireView().findNavController().navigate(actions)
+        }
+
+        binding.recyclerView.adapter = shipAdapter
+    }
+
 
     private fun filterShip(ship: String) {
         val filteredList =
@@ -113,6 +129,7 @@ class HomeFragment : BaseDaggerFragment() {
                         filteredShips = ship
                         shipAdapter = ShipAdapter(it)
                         setRecyclerView()
+                        onShipClick()
                     }
                 }
                 Status.ERROR -> {

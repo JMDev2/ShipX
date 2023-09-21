@@ -9,5 +9,19 @@
         android:id="@+id/homeFragment"
         android:name="com.ekenya.rnd.dashboard.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_shipDetailsFragment"
+            app:destination="@id/shipDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shipDetailsFragment"
+        android:name="com.ekenya.rnd.dashboard.ui.home.ShipDetailsFragment"
+        android:label="fragment_ship_details"
+        tools:layout="@layout/fragment_ship_details" >
+        <argument
+            android:name="shipId"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
 </navigation>

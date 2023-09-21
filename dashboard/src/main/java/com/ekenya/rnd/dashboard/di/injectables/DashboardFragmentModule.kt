@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.ekenya.rnd.baseapp.di.ViewModelKey
 import com.ekenya.rnd.dashboard.ui.home.HomeFragment
 import com.ekenya.rnd.dashboard.ui.home.HomeViewModel
+import com.ekenya.rnd.dashboard.ui.home.ShipDetailsFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -22,4 +23,8 @@ abstract class DashboardFragmentModule {
         @ViewModelKey(HomeViewModel::class)
         abstract fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
     }
+
+    @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
+    abstract fun contributeShipDetailsFragment(): ShipDetailsFragment
+
 }
