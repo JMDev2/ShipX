@@ -1,4 +1,6 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="summary">The American Ship is a ship magnificent of its true stature.Check it out.</string>
+    <string name="api">Data fetched from: Spacex Public Api</string>
 </resources>

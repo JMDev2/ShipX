@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
-import com.ekenya.rnd.dashboard.R
-import com.ekenya.rnd.dashboard.databinding.FragmentHomeBinding
 import com.ekenya.rnd.dashboard.databinding.FragmentShipDetailsBinding
 
 class ShipDetailsFragment : BaseDaggerFragment() {
