@@ -1,5 +1,6 @@
 package com.ekenya.rnd.dashboard.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,32 +13,34 @@ import com.ekenya.rnd.dashboard.databinding.ShiplayoutBinding
 import com.squareup.picasso.Picasso
 
 class ShipAdapter(private val ships : ArrayList<ShipResponseItem>):
-RecyclerView.Adapter<ShipAdapter.ShipsViewHolder>(){
+    RecyclerView.Adapter<ShipAdapter.ShipsViewHolder>(){
 
-    var onItemClick: ((String) -> Unit) = {}
+    var onItemClick: ((ShipResponseItem) -> Unit) = {}
 
 
 
 
     inner class ShipsViewHolder(val binding: ShiplayoutBinding, val context: Context): RecyclerView.ViewHolder(binding.root){
+        @SuppressLint("SetTextI18n")
         fun bind(
             ship : ShipResponseItem
         ){
             binding.apply {
 
-                if (ship.image != null && ship.image.isNotEmpty()) {
+                if (ship.image != null && ship.image!!.isNotEmpty()) {
                     Picasso.get().load(ship.image).into(binding.shipImage)
                 } else {
                     shipImage.setImageResource(R.drawable.ship)
                 }
 
                 title.text = ship.ship_name
-                shipType.text = "Built: ${ship.ship_type.toString()}"
-              if (ship.active == true){
-                  activeImg.setImageResource(R.drawable.red)
-              }else{
-                  activeImg.setImageResource(R.drawable.star)
-              }
+                binding.shipYear.text = "Built: ${ship.year_built ?: 0}"
+
+                if (ship.active == true){
+                    activeImg.setImageResource(R.drawable.red)
+                }else{
+                    activeImg.setImageResource(R.drawable.star)
+                }
             }
 
         }
@@ -53,8 +56,7 @@ RecyclerView.Adapter<ShipAdapter.ShipsViewHolder>(){
         holder.bind(ships[position])
 
         holder.itemView.setOnClickListener {
-            Log.d("ClickEvent", "Item clicked: ${ships[position].ship_id}")
-            onItemClick.invoke(ships[position].ship_id)
+            onItemClick.invoke(ships[position])
         }
 
 
@@ -62,4 +64,3 @@ RecyclerView.Adapter<ShipAdapter.ShipsViewHolder>(){
 
     override fun getItemCount(): Int = ships.size
 }
-

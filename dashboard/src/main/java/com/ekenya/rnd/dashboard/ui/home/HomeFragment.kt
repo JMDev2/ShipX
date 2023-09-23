@@ -5,17 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
 import com.ekenya.rnd.common.model.ShipResponseItem
 import com.ekenya.rnd.common.utils.Status
-import com.ekenya.rnd.common.utils.toast
-import com.ekenya.rnd.dashboard.MainActivity
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.adapter.ShipAdapter
 import com.ekenya.rnd.dashboard.databinding.FragmentHomeBinding
@@ -80,8 +76,13 @@ class HomeFragment : BaseDaggerFragment() {
 
     private fun onShipClick() {
         shipAdapter.onItemClick = { ship ->
-            val actions = HomeFragmentDirections.actionHomeFragmentToShipDetailsFragment()
-            requireView().findNavController().navigate(actions)
+            val bundle = Bundle()
+            bundle.putParcelable("item", ship)
+
+            requireView().findNavController().navigate(
+                R.id.shipDetailsFragment,
+                bundle
+            )
         }
 
         binding.recyclerView.adapter = shipAdapter
@@ -93,11 +94,11 @@ class HomeFragment : BaseDaggerFragment() {
             filteredShips.filter { it.ship_name?.contains(ship, ignoreCase = true) ?: false }
         val theFilteredShips = ArrayList(filteredList)
 
-        if (theFilteredShips.isEmpty()){
-           // binding.errorLayout.visibility = View.VISIBLE
+        if (theFilteredShips.isEmpty()) {
+            // binding.errorLayout.visibility = View.VISIBLE
             binding.noshipText.visibility = View.VISIBLE
         } else {
-           // binding.errorLayout.visibility = View.GONE
+            // binding.errorLayout.visibility = View.GONE
             binding.noshipText.visibility = View.GONE
         }
 
@@ -107,8 +108,8 @@ class HomeFragment : BaseDaggerFragment() {
     }
 
 
-    private fun setRecyclerView(){
-        binding.recyclerView.apply{
+    private fun setRecyclerView() {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = shipAdapter
         }
@@ -117,7 +118,7 @@ class HomeFragment : BaseDaggerFragment() {
 
     private fun observeShips() {
         viewModel.observeShipLiveData().observe(viewLifecycleOwner) { shipResponse ->
-            when(shipResponse.status){
+            when (shipResponse.status) {
                 Status.SUCCESS -> {
                     hideProgressBar()
                     showNetworkErrorImage()
@@ -146,13 +147,13 @@ class HomeFragment : BaseDaggerFragment() {
         }
     }
 
-    private fun showSnackBar(view: View){
+    private fun showSnackBar(view: View) {
         Snackbar.make(
             view,
             "Error loading ships",
             Snackbar.LENGTH_LONG
         )
-            .setAction("Retry"){
+            .setAction("Retry") {
                 doRefresh()
             }.show()
     }
@@ -173,6 +174,7 @@ class HomeFragment : BaseDaggerFragment() {
         binding?.retryBtn?.visibility = View.VISIBLE
 
     }
+
     private fun hideNetworkErrorImage() {
         binding?.eorImage?.visibility = View.GONE
         binding?.retryBtn?.visibility = View.GONE
@@ -182,5 +184,6 @@ class HomeFragment : BaseDaggerFragment() {
     private fun hideProgressBar() {
         binding?.progressBar?.visibility = View.GONE
     }
+
 
 }
