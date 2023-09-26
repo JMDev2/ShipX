@@ -2,6 +2,7 @@ package com.ekenya.rnd.dashboard.di.injectables
 
 import androidx.lifecycle.ViewModel
 import com.ekenya.rnd.baseapp.di.ViewModelKey
+import com.ekenya.rnd.dashboard.ui.home.FavouritesFragment
 import com.ekenya.rnd.dashboard.ui.home.HomeFragment
 import com.ekenya.rnd.dashboard.ui.home.HomeViewModel
 import com.ekenya.rnd.dashboard.ui.home.ShipDetailsFragment
@@ -26,5 +27,8 @@ abstract class DashboardFragmentModule {
 
     @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
     abstract fun contributeShipDetailsFragment(): ShipDetailsFragment
+
+    @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
+    abstract fun contributeFavoritesFragment(): FavouritesFragment
 
 }

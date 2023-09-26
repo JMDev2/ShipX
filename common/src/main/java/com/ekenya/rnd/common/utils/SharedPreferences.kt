@@ -2,59 +2,43 @@ package com.ekenya.rnd.common.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.ekenya.rnd.common.model.ShipResponseItem
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-object SharedPreferences {
+object SharedPreferencesManager {
+
+    const val SHIP_DATA_KEY = "shipData"
 
 
-    // Function to set the phone number in SharedPreferences
-    fun setPhoneNumber(context: Context, phoneNumber: String) {
+    fun saveToSharedPreferences(context: Context, ship: ShipResponseItem): Boolean {
+        val gson = Gson()
+        val shipJson = gson.toJson(ship)
+
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("phoneNumber", phoneNumber)
-        editor.apply()
-    }
-
-    // Function to get the phone number from SharedPreferences
-    fun getPhoneNumber(context: Context): String? {
-        val sharedPreferences: SharedPreferences =
-            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("phoneNumber", "")
+        val editor = sharedPreferences.edit()
+        editor.putString("shipData", shipJson)
+        return editor.commit() // This returns true if the save operation was successful
     }
 
 
-    // Function to set the date and time "from" in SharedPreferences
-    fun setDateTimeFrom(context: Context, dateTimeFrom: String) {
+    fun retrieveShip(context: Context, callback: (ShipResponseItem?) -> Unit) {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("dateTimeFrom", dateTimeFrom)
-        editor.apply()
-    }
+        val shipJson = sharedPreferences.getString(SHIP_DATA_KEY, null)
 
-    // Function to get the date and time "from" from SharedPreferences
-    fun getDateTimeFrom(context: Context): String? {
-        val sharedPreferences: SharedPreferences =
-            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("dateTimeFrom", null)
-    }
-
-    // Function to set the date and time "to" in SharedPreferences
-    fun setDateTimeTo(context: Context, dateTimeTo: String) {
-        val sharedPreferences: SharedPreferences =
-            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("dateTimeTo", dateTimeTo)
-        editor.apply()
-    }
-
-    // Function to get the date and time "to" from SharedPreferences
-    fun getDateTimeTo(context: Context): String? {
-        val sharedPreferences: SharedPreferences =
-            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("dateTimeTo", null)
+        if (shipJson != null) {
+            val gson = Gson()
+            val shipResponseItem = gson.fromJson(shipJson, ShipResponseItem::class.java)
+            callback(shipResponseItem)
+        } else {
+            callback(null) // Handle the case where ship data is not found
+        }
     }
 }
+
+
+

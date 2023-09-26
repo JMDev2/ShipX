@@ -24,5 +24,13 @@
             app:argType="string"
             android:defaultValue="0"
             />
+        <action
+            android:id="@+id/action_shipDetailsFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.ekenya.rnd.dashboard.ui.home.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites" />
 </navigation>

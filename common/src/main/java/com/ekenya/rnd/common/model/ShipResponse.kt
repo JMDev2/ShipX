@@ -66,6 +66,27 @@ class ShipResponseItem(
             return arrayOfNulls(size)
         }
     }
+
+    //this will help me to log saved object
+    override fun toString(): String {
+        return "ShipResponseItem(" +
+                "ship_id=$ship_id, " +
+                "ship_name=$ship_name, " +
+                "ship_type=$ship_type, " +
+                "active=$active, " +
+                "abs=$abs, " +
+                "class=$`class`, " +
+                "image=$image, " +
+                "speed_kn=$speed_kn, " +
+                "weight_kg=$weight_kg, " +
+                "weight_lbs=$weight_lbs, " +
+                "year_built=$year_built" +
+                ")"
+    }
+
+
+
+
 }
 
 class Mission(

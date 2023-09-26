@@ -1,5 +1,6 @@
 package com.ekenya.rnd.dashboard.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -10,10 +11,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
 import com.ekenya.rnd.common.model.ShipResponseItem
-import com.ekenya.rnd.common.utils.Status
+import com.ekenya.rnd.common.utils.SharedPreferencesManager
+import com.ekenya.rnd.common.utils.toast
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.databinding.FragmentShipDetailsBinding
 import com.squareup.picasso.Picasso
@@ -23,7 +26,7 @@ class ShipDetailsFragment : BaseDaggerFragment() {
 
     private lateinit var binding: FragmentShipDetailsBinding
 
-    private val args: ShipDetailsFragmentArgs by navArgs()
+
 
 
     @Inject
@@ -56,14 +59,23 @@ class ShipDetailsFragment : BaseDaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.favView.setOnClickListener {
+            findNavController().navigate(R.id.favouritesFragment)
+        }
+
         observeShipDetails()
+
+
+
+
+
 
     }
 
     private fun observeShipDetails() {
         val ship = requireArguments().getParcelable<ShipResponseItem>("item")
         ship?.let {
-            binding.progressBar2.visibility = View.VISIBLE
+
             Picasso.get().load(ship.image).into(binding.shipImg)
             if (ship.image != null){
                 Picasso.get().load(ship.image).into(binding.shipImg)
@@ -83,10 +95,26 @@ class ShipDetailsFragment : BaseDaggerFragment() {
 
             binding.shipWeightTv.text = ship.weight_kg?.toString() ?: "0"
 
-            binding.progressBar2.visibility = View.GONE
+            viewModel.saveResult.observe(viewLifecycleOwner) { success ->
+                if (success) {
+                    // Object saved successfully, show a success message or take action
+                    toast("Object saved successfully")
+                } else {
+                    // Saving failed, show an error message or take action
+                    toast("Save failed")
+                }
+            }
+
+            binding.fav.setOnClickListener {
+                viewModel.saveShipItems(requireContext(), ship)
+            }
+
+
 
         }
     }
+
+
 
 
 
