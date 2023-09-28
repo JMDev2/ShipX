@@ -1,10 +1,8 @@
 package com.ekenya.rnd.dashboard.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
+import com.ekenya.rnd.common.model.ShipData
 import com.ekenya.rnd.common.model.ShipResponseItem
-import com.ekenya.rnd.common.utils.SharedPreferencesManager
 import com.ekenya.rnd.common.utils.toast
 import com.ekenya.rnd.dashboard.R
+import com.ekenya.rnd.dashboard.database.ShipDataViewModel
 import com.ekenya.rnd.dashboard.databinding.FragmentShipDetailsBinding
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
@@ -32,7 +30,7 @@ class ShipDetailsFragment : BaseDaggerFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by lazy {
-        ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        ViewModelProvider(this, factory)[ShipDataViewModel::class.java]
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,13 +61,13 @@ class ShipDetailsFragment : BaseDaggerFragment() {
             findNavController().navigate(R.id.favouritesFragment)
         }
 
+
+        val ship = ShipData()
+        binding.fav.setOnClickListener {
+            viewModel.saveShip(ship)
+        }
+
         observeShipDetails()
-
-
-
-
-
-
     }
 
     private fun observeShipDetails() {
@@ -95,28 +93,9 @@ class ShipDetailsFragment : BaseDaggerFragment() {
 
             binding.shipWeightTv.text = ship.weight_kg?.toString() ?: "0"
 
-            viewModel.saveResult.observe(viewLifecycleOwner) { success ->
-                if (success) {
-                    // Object saved successfully, show a success message or take action
-                    toast("Object saved successfully")
-                } else {
-                    // Saving failed, show an error message or take action
-                    toast("Save failed")
-                }
-            }
-
-            binding.fav.setOnClickListener {
-                viewModel.saveShipItems(requireContext(), ship)
-            }
-
 
 
         }
     }
-
-
-
-
-
 
 }

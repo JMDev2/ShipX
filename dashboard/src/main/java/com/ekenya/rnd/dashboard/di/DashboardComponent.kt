@@ -6,6 +6,7 @@ import com.ekenya.rnd.baseapp.di.injectables.ViewModelModule
 import com.ekenya.rnd.dashboard.di.injectables.DashboardActivityModule
 import com.ekenya.rnd.dashboard.di.injectables.DashboardFragmentModule
 import com.ekenya.rnd.dashboard.di.injectables.NetworkModule
+import com.ekenya.rnd.dashboard.di.injectables.RoomModule
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 
@@ -18,7 +19,8 @@ import dagger.android.support.AndroidSupportInjectionModule
         DashboardFragmentModule::class,
         AndroidSupportInjectionModule::class,
         ViewModelModule::class,
-    NetworkModule::class
+    NetworkModule::class,
+    RoomModule::class
     ]
 )
 interface DashboardComponent {

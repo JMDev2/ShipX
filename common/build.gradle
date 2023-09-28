@@ -88,4 +88,12 @@ dependencies {
 
     //Picasso
     api 'com.squareup.picasso:picasso:' + rootProject.picassoVersion
+
+    // RoomDB
+
+    //Runtime
+    api "androidx.room:room-runtime:2.5.2"
+
+    //Kotlin extensions (Coroutines + Flow)
+    api "androidx.room:room-ktx:2.5.2"
 }

@@ -14,6 +14,7 @@ import com.ekenya.rnd.common.model.ShipResponseItem
 import com.ekenya.rnd.common.utils.Status
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.adapter.ShipAdapter
+import com.ekenya.rnd.dashboard.database.ShipDataViewModel
 import com.ekenya.rnd.dashboard.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -32,6 +33,7 @@ class HomeFragment : BaseDaggerFragment() {
     private val viewModel by lazy {
         ViewModelProvider(this, factory)[HomeViewModel::class.java]
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
