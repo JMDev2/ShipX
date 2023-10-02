@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //
     testImplementation 'junit:junit:4.+'
+    testImplementation project(path: ':common')
     androidTestImplementation 'androidx.test.ext:junit:' + rootProject.testVersion
     androidTestImplementation 'androidx.test:rules:' + rootProject.testVersion
     androidTestImplementation 'androidx.test.espresso:espresso-core:' + rootProject.espressoVersion
@@ -56,6 +57,18 @@ dependencies {
 
     //very imporatnt for room
     kapt "androidx.room:room-compiler:2.5.2"
+
+    //test
+    //mockk
+    testImplementation "io.mockk:mockk:1.13.3"
+    //mockito
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
+    // Mock web server
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+
+    // Coroutine test
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "android.arch.core:core-testing:1.0.0"
 
 }
 
