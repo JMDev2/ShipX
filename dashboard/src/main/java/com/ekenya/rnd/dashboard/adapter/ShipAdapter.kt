@@ -18,8 +18,6 @@ class ShipAdapter(private val ships : ArrayList<ShipResponseItem>):
     var onItemClick: ((ShipResponseItem) -> Unit) = {}
 
 
-
-
     inner class ShipsViewHolder(val binding: ShiplayoutBinding, val context: Context): RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
         fun bind(
