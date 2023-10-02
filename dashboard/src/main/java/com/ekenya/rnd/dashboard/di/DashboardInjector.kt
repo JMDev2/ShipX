@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.ekenya.rnd.baseapp.SpaceXApp
 import com.ekenya.rnd.baseapp.di.BaseModuleInjector
+import com.ekenya.rnd.dashboard.di.injectables.RoomModule
 import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class DashboardInjector : BaseModuleInjector {
     override fun inject(app: SpaceXApp) {
         DaggerDashboardComponent.builder()
             .appComponent(app.appComponent)
+            .roomModule(RoomModule(app.applicationContext))
             .build()
             .inject(this)
     }

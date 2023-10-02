@@ -8,4 +8,5 @@ public class Constants {
      * E.G if base = 'com.ekenya.rnd', then app id would be 'com.ekenya.rnd.app', then module id, like support should be 'com.ekenya.rnd.support'
      */
     public static String BASE_PACKAGE_NAME = "com.ekenya.rnd";
+    public static String BASE_URL = "https://api.spacexdata.com/v3/";
 }
