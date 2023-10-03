@@ -9,17 +9,23 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ShipDataViewModel @Inject constructor(private val shipDataRepository: ShipDataRepository): ViewModel() {
+class ShipDataViewModel @Inject constructor(private val shipDataRepository: ShipDataRepository) : ViewModel() {
 
-    val allShips : Flow<Resource<List<ShipData>>> = shipDataRepository.allShips.map {
+    val allShips: Flow<Resource<List<ShipData>>> = shipDataRepository.allShips.map {
         Resource.success(it)
     }
 
-    //saving the ship
-    fun saveShip(shipData: ShipData){
+    // Saving a ship
+    fun saveShip(shipData: ShipData) {
         viewModelScope.launch {
             shipDataRepository.saveShip(shipData)
         }
     }
 
+    // Deleting a ship
+    fun delete(shipData: ShipData) {
+        viewModelScope.launch {
+            shipDataRepository.delete(shipData)
+        }
+    }
 }
