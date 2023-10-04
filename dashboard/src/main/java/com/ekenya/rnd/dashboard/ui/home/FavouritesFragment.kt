@@ -19,6 +19,7 @@ import com.ekenya.rnd.common.utils.toast
 import com.ekenya.rnd.dashboard.adapter.ShipDataAdapter
 import com.ekenya.rnd.dashboard.database.ShipDataViewModel
 import com.ekenya.rnd.dashboard.databinding.FragmentFavouritesBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -72,6 +73,7 @@ class FavouritesFragment : BaseDaggerFragment() {
 
 
     private fun swipeToDelete(){
+        val shipData = ShipData()
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -88,7 +90,7 @@ class FavouritesFragment : BaseDaggerFragment() {
                 val position = viewHolder.adapterPosition
                 shipDataAdapter.removeItem(position)
                 binding.root.let {
-                    showSnackBar(it)
+                    showSnackBar(it, shipData)
                 }
             }
 
@@ -122,15 +124,28 @@ class FavouritesFragment : BaseDaggerFragment() {
     }
 
 }
-    private fun showSnackBar(view: View) {
-        Snackbar.make(
+    private fun showSnackBar(view: View, deletedShip: ShipData) {
+        val snackbar = Snackbar.make(
             view,
             "Deleted",
             Snackbar.LENGTH_LONG
         )
-            .setAction("Undo") {
 
-            }.show()
+        snackbar.setAction("Undo") {
+            viewModel.saveShip(deletedShip)
+        }
+
+        // Set a callback to perform an action after the Snackbar is dismissed
+        snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                if (event == DISMISS_EVENT_TIMEOUT) {
+                    toast("Ship Deleted")
+                }
+            }
+        })
+
+        snackbar.show()
     }
+
 
 }

@@ -32,7 +32,6 @@ class ShipDetailsFragment : BaseDaggerFragment() {
     private var i : Int = 0
 
 
-
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by lazy {
@@ -47,13 +46,9 @@ class ShipDetailsFragment : BaseDaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentShipDetailsBinding.inflate(inflater, container, false)
-
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        // Enable the back arrow in the toolbar
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // Set the click listener for the back arrow
         binding.toolbar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
         }
@@ -67,7 +62,11 @@ class ShipDetailsFragment : BaseDaggerFragment() {
             findNavController().navigate(R.id.favouritesFragment)
         }
 
+        observeShipDetails()
+        tapTosave()
+    }
 
+    private fun tapTosave(){
         binding.fav.setOnClickListener {
             i++
             val handler = Handler()
@@ -85,8 +84,6 @@ class ShipDetailsFragment : BaseDaggerFragment() {
                 }
             }, 500)
         }
-
-        observeShipDetails()
     }
 
     private fun saveShip(){
@@ -127,8 +124,6 @@ class ShipDetailsFragment : BaseDaggerFragment() {
 
             binding.shipWeightTv.text = ship.weight_kg?.toString() ?: "0"
             Log.e("maina", "Id${ship.ship_id}")
-
-
 
         }
     }
