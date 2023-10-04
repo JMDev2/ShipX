@@ -18,4 +18,7 @@ interface ShipDao {
 
     @Delete
     fun delete(shipData: ShipData)
+
+    @Query("SELECT COUNT(*) FROM ship WHERE id=:shipId")
+    suspend fun getShipCount(shipId: Long) : Int
 }

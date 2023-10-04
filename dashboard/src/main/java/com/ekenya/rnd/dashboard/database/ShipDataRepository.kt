@@ -1,5 +1,6 @@
 package com.ekenya.rnd.dashboard.database
 
+import android.text.BoringLayout
 import com.ekenya.rnd.common.model.ShipData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,5 +23,10 @@ class ShipDataRepository @Inject constructor(private val shipDao: ShipDao) {
         withContext(Dispatchers.IO) {
             shipDao.delete(shipData)
         }
+    }
+
+    suspend fun doesShipExist(shipId: Long): Boolean{
+        val count = shipDao.getShipCount(shipId)
+        return count > 0
     }
 }
