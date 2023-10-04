@@ -1,13 +1,18 @@
 package com.ekenya.rnd.dashboard.ui.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
@@ -18,13 +23,13 @@ import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.database.ShipDataViewModel
 import com.ekenya.rnd.dashboard.databinding.FragmentShipDetailsBinding
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShipDetailsFragment : BaseDaggerFragment() {
 
     private lateinit var binding: FragmentShipDetailsBinding
-
-
+    private var i : Int = 0
 
 
     @Inject
@@ -41,13 +46,9 @@ class ShipDetailsFragment : BaseDaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentShipDetailsBinding.inflate(inflater, container, false)
-
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        // Enable the back arrow in the toolbar
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // Set the click listener for the back arrow
         binding.toolbar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()
         }
@@ -57,18 +58,48 @@ class ShipDetailsFragment : BaseDaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.favView.setOnClickListener {
+        binding.viewFav.setOnClickListener {
             findNavController().navigate(R.id.favouritesFragment)
         }
 
-
-        val ship = ShipData()
-        binding.fav.setOnClickListener {
-            viewModel.saveShip(ship)
-        }
-
         observeShipDetails()
+        tapTosave()
     }
+
+    private fun tapTosave(){
+        binding.fav.setOnClickListener {
+            i++
+            val handler = Handler()
+            handler.postDelayed({
+                if (i==1){
+                    toast("Tap twice to save")
+                }else if (i==2){
+                    val scaleAnimation = AnimationUtils.loadAnimation(context, R.anim.scale_in)
+                    binding.fav.startAnimation(scaleAnimation)
+                    saveShip()
+                    toast("Added to favourites")
+                    binding.fav.setImageResource(R.drawable.favorite_saved)
+                }else{
+                    toast("Already Saved")
+                }
+            }, 500)
+        }
+    }
+
+    private fun saveShip(){
+        val ship = ShipData()
+        lifecycleScope.launch {
+            val shipExists = viewModel.checkIfShipExists(ship.id)
+            Log.e("maina", "Idhgs: ${ship.id}")
+
+            if (shipExists) {
+                Toast.makeText(requireContext(), "Ship with ID ${ship.id} already exists", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.saveShip(ship)
+            }
+        }
+    }
+
 
     private fun observeShipDetails() {
         val ship = requireArguments().getParcelable<ShipResponseItem>("item")
@@ -92,8 +123,7 @@ class ShipDetailsFragment : BaseDaggerFragment() {
             binding.shipTypeTv.text = ship.ship_type?.toString() ?: "0"
 
             binding.shipWeightTv.text = ship.weight_kg?.toString() ?: "0"
-
-
+            Log.e("maina", "Id${ship.ship_id}")
 
         }
     }

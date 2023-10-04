@@ -8,15 +8,12 @@ class ShipResponse : ArrayList<ShipResponseItem>()
 class ShipResponseItem(
     val abs: Int,
     val active: Boolean,
-
     val `class`: Int,
-
     val image: String?,
     val speed_kn: Int?,
     val weight_kg: Int?,
     val weight_lbs: Int?,
     val year_built: Int?,
-
     val ship_id: String?,
     val ship_model: String?,
     val ship_name: String?,

@@ -57,6 +57,7 @@ dependencies {
 
     //very imporatnt for room
     kapt "androidx.room:room-compiler:2.5.2"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
 
     //test
     //mockk

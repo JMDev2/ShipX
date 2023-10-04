@@ -5,13 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ekenya.rnd.common.model.ShipData
+import com.ekenya.rnd.common.model.ShipResponseItem
 import com.ekenya.rnd.dashboard.R
+import com.ekenya.rnd.dashboard.database.ShipDataViewModel
 import com.ekenya.rnd.dashboard.databinding.FragmentFavouritesBinding
 import com.ekenya.rnd.dashboard.databinding.ShiplayoutBinding
 import com.squareup.picasso.Picasso
 
-class ShipDataAdapter(var shipData: List<ShipData>):
+class ShipDataAdapter(private val shipDataViewModel: ShipDataViewModel, var shipData: List<ShipData>):
     RecyclerView.Adapter<ShipDataAdapter.ShipViewHolder>(){
+
+    var onItemClick: ((ShipData) -> Unit) = {}
+
 
 
     inner class ShipViewHolder(val binding: ShiplayoutBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
@@ -45,7 +50,18 @@ class ShipDataAdapter(var shipData: List<ShipData>):
 
     override fun onBindViewHolder(holder: ShipViewHolder, position: Int) {
         holder.bind(shipData[position])
+
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(shipData[position])
+        }
     }
 
     override fun getItemCount(): Int = shipData.size
+
+    fun getItemAtPosition(position: Int): ShipData = shipData[position]
+
+    fun removeItem(position: Int) {
+        val shipToDelete = getItemAtPosition(position)
+        shipDataViewModel.delete(shipToDelete)
+    }
 }
