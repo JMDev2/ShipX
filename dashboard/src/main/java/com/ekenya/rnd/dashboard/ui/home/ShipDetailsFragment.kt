@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.ekenya.rnd.common.abstractions.BaseDaggerFragment
 import com.ekenya.rnd.common.model.ShipData
 import com.ekenya.rnd.common.model.ShipResponseItem
+import com.ekenya.rnd.common.model.toShipData
 import com.ekenya.rnd.common.utils.toast
 import com.ekenya.rnd.dashboard.R
 import com.ekenya.rnd.dashboard.database.ShipDataViewModel
@@ -30,6 +31,9 @@ class ShipDetailsFragment : BaseDaggerFragment() {
 
     private lateinit var binding: FragmentShipDetailsBinding
     private var i : Int = 0
+    private lateinit var ship : ShipResponseItem
+
+
 
 
     @Inject
@@ -76,7 +80,7 @@ class ShipDetailsFragment : BaseDaggerFragment() {
                 }else if (i==2){
                     val scaleAnimation = AnimationUtils.loadAnimation(context, R.anim.scale_in)
                     binding.fav.startAnimation(scaleAnimation)
-                    saveShip()
+                    ship?.let { it1 -> saveShip(ship= it1.toShipData()) }
                     toast("Added to favourites")
                     binding.fav.setImageResource(R.drawable.favorite_saved)
                 }else{
@@ -86,12 +90,10 @@ class ShipDetailsFragment : BaseDaggerFragment() {
         }
     }
 
-    private fun saveShip(){
-        val ship = ShipData()
+    private fun saveShip(ship:ShipData){
         lifecycleScope.launch {
             val shipExists = viewModel.checkIfShipExists(ship.id)
             Log.e("maina", "Idhgs: ${ship.id}")
-
             if (shipExists) {
                 Toast.makeText(requireContext(), "Ship with ID ${ship.id} already exists", Toast.LENGTH_SHORT).show()
             } else {
@@ -102,7 +104,7 @@ class ShipDetailsFragment : BaseDaggerFragment() {
 
 
     private fun observeShipDetails() {
-        val ship = requireArguments().getParcelable<ShipResponseItem>("item")
+        ship= requireArguments().getParcelable<ShipResponseItem>("item")!!
         ship?.let {
 
             Picasso.get().load(ship.image).into(binding.shipImg)
