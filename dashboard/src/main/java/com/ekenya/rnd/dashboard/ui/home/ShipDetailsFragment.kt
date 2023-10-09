@@ -70,37 +70,47 @@ class ShipDetailsFragment : BaseDaggerFragment() {
         tapTosave()
     }
 
-    private fun tapTosave(){
+    private var isSaving = false
+
+    private fun tapTosave() {
         binding.fav.setOnClickListener {
-            i++
-            val handler = Handler()
-            handler.postDelayed({
-                if (i==1){
-                    toast("Tap twice to save")
-                }else if (i==2){
-                    val scaleAnimation = AnimationUtils.loadAnimation(context, R.anim.scale_in)
-                    binding.fav.startAnimation(scaleAnimation)
-                    ship?.let { it1 -> saveShip(ship= it1.toShipData()) }
-                    toast("Added to favourites")
-                    binding.fav.setImageResource(R.drawable.favorite_saved)
-                }else{
-                    toast("Already Saved")
-                }
-            }, 500)
+            if (!isSaving) {
+                isSaving = true
+                i++
+                val handler = Handler()
+                handler.postDelayed({
+                    if (i == 1) {
+                        toast("Tap twice to save")
+                        isSaving = false
+                    } else if (i == 2) {
+                        val scaleAnimation = AnimationUtils.loadAnimation(context, R.anim.scale_in)
+                        binding.fav.startAnimation(scaleAnimation)
+                        ship?.let { it1 -> saveShip(ship = it1.toShipData()) }
+                        binding.fav.setImageResource(R.drawable.favorite_saved)
+                        // The ship saving process is asynchronous, so you should reset the flag when it's done
+                    } else {
+                        toast("Already Saved")
+                        isSaving = false
+                        binding.fav.setImageResource(R.drawable.favorite_saved)
+                    }
+                }, 500)
+            }
         }
     }
 
-    private fun saveShip(ship:ShipData){
+    private fun saveShip(ship: ShipData) {
         lifecycleScope.launch {
             val shipExists = viewModel.checkIfShipExists(ship.id)
-            Log.e("maina", "Idhgs: ${ship.id}")
+            Log.e("maina", "ship ID: ${ship.id}")
             if (shipExists) {
                 Toast.makeText(requireContext(), "Ship with ID ${ship.id} already exists", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.saveShip(ship)
+                isSaving = false
             }
         }
     }
+
 
 
     private fun observeShipDetails() {
