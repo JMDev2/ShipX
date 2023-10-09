@@ -4,6 +4,7 @@ This is a mobile App that displays a list of ships using the space X API
 <p align="horizontal">
 <img src="images/dashboard.jpeg" width="200" >
 <img src="images/shipdetails.jpeg" width="200" >
+<img src="images/delete.jpeg" width="200" >
 <img src="images/savedships.jpeg" width="200" >
 </p>
 
