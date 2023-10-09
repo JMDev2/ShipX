@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white"
-            app:title="Ship Details"
+            app:title="Favourite Ships"
             android:fontFamily="@font/poppins"
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@drawable/keyboard_backspace"

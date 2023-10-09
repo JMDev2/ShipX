@@ -2,14 +2,14 @@
 This is a mobile App that displays a list of ships using the space X API
 
 <p align="horizontal">
-<img src="images/mainpage.png" width="200" >
-<img src="images/uplaodfile.jpeg" width="200" >
-<img src="images/viewfile.png" width="200" >
+<img src="images/dashboard.jpeg" width="200" >
+<img src="images/shipdetails.jpeg" width="200" >
+<img src="images/savedships.jpeg" width="200" >
 </p>
 
 ## Description
 The application displays a list of ships and Details of each ship. It is also utilizing Room database to save the ship objects, displaying the list of saved ships. The user can also delete the ships they are not interested.
-#### By **[JOSEPH MAINA](https://github.com/JOSEPHMAINA1995)** **[JOSEPH MAINA](https://github.com/JOSEPHMAINA1995)** **[JOSEPH MAINA](https://github.com/JOSEPHMAINA1995)**
+#### By **[JOSEPH MAINA](https://github.com/JMDev2)** **[JOSEPH MAINA](https://github.com/JMDev2)** **[JOSEPH MAINA](https://github.com/JMDev2)**
 
 
 
@@ -29,6 +29,7 @@ The application displays a list of ships and Details of each ship. It is also ut
 * Room Database
 * Coroutines
 * TDD
+* Search functionality
 
 ### License
 
